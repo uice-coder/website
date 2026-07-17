@@ -1,0 +1,453 @@
+/* -------------------------------------------------------------------------- */
+/* App shell — editorial publication chrome                                     */
+/* -------------------------------------------------------------------------- */
+
+.shell {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+  display: grid;
+  grid-template-rows: auto auto minmax(0, 1fr) auto;
+  max-width: var(--shell-max);
+  margin: 0 auto;
+  padding: var(--space-4) var(--space-6) var(--space-4);
+  gap: var(--space-3);
+}
+
+/* Top bar ------------------------------------------------------------------ */
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-5);
+  padding-bottom: var(--space-3);
+  border-bottom: 1px solid var(--divider);
+}
+
+.topbar__brand {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-4);
+  min-width: 0;
+}
+
+/* Publication-style wordmark rather than an app title. */
+.topbar__title {
+  font-size: 0.9375rem;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--ink);
+}
+
+.topbar__title em {
+  font-style: normal;
+  color: var(--blue);
+}
+
+.topbar__subtitle {
+  font-size: 0.875rem;
+  color: var(--grey);
+  white-space: nowrap;
+  font-style: italic;
+}
+
+.topbar__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+/* Mode toggle — refined segmented control ----------------------------------- */
+
+.modetoggle {
+  display: inline-flex;
+  padding: 3px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+}
+
+.modetoggle__btn {
+  padding: 5px var(--space-4);
+  border-radius: 999px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--slate);
+  transition:
+    color 0.15s ease,
+    background 0.15s ease;
+}
+
+.modetoggle__btn[aria-pressed='true'] {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.modetoggle__btn:hover:not([aria-pressed='true']) {
+  color: var(--ink);
+}
+
+/* Text controls (Notes, Glossary) ------------------------------------------- */
+
+.ghostbtn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 6px var(--space-3);
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--slate);
+  transition:
+    color 0.15s ease,
+    background 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.ghostbtn:hover {
+  color: var(--ink);
+  background: rgba(23, 33, 43, 0.045);
+}
+
+.ghostbtn[aria-pressed='true'],
+.ghostbtn[aria-expanded='true'] {
+  color: var(--ink);
+  box-shadow: inset 0 -2px 0 var(--blue);
+  border-radius: var(--radius-sm) var(--radius-sm) 2px 2px;
+}
+
+.ghostbtn__key {
+  padding: 0 5px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--surface);
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  color: var(--grey);
+}
+
+/* Chapter progress — thin publication line ---------------------------------- */
+
+.progress {
+  display: flex;
+  align-items: center;
+  gap: var(--space-5);
+}
+
+.progress__readout {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--slate);
+  white-space: nowrap;
+  min-width: 22ch;
+  font-variant-numeric: tabular-nums;
+}
+
+.progress__readout strong {
+  color: var(--ink);
+  font-weight: 650;
+}
+
+.progress__rail {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  flex: 1;
+}
+
+.progress__item {
+  flex: 1;
+}
+
+.progress__step {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: var(--space-2) 0 0;
+  border-top: 2px solid var(--line);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--grey);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-variant-numeric: tabular-nums;
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.progress__step--done {
+  border-top-color: var(--line-strong);
+  color: var(--slate);
+}
+
+.progress__step--current {
+  border-top-color: var(--blue);
+  color: var(--blue-ink);
+  font-weight: 650;
+}
+
+.progress__rail--interactive .progress__step:hover {
+  color: var(--ink);
+  border-top-color: var(--slate);
+}
+
+.progress__rail--interactive .progress__step--current:hover {
+  color: var(--blue-ink);
+  border-top-color: var(--blue);
+}
+
+.progress__step[disabled] {
+  cursor: default;
+}
+
+/* Scene viewport ------------------------------------------------------------ */
+
+.viewport {
+  position: relative;
+  min-height: 0;
+  display: grid;
+}
+
+.viewport__inner {
+  grid-area: 1 / 1;
+  min-height: 0;
+  display: flex;
+}
+
+/* Scene controls ------------------------------------------------------------ */
+
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--divider);
+}
+
+.controls__group {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.controls__hint {
+  font-size: 0.8125rem;
+  color: var(--grey);
+}
+
+.controls__hint kbd {
+  display: inline-block;
+  padding: 0 5px;
+  margin: 0 2px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--surface);
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  color: var(--slate);
+}
+
+.navbtn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--ink);
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    opacity 0.15s ease;
+}
+
+.navbtn svg {
+  transition: transform 0.18s ease;
+}
+
+.navbtn:hover:not(:disabled) {
+  border-color: var(--line-strong);
+  background: #fdfcf9;
+}
+
+/* Arrow shift on hover: Previous slides left, Next slides right. */
+.navbtn:hover:not(:disabled):not(.navbtn--primary) svg {
+  transform: translateX(-3px);
+}
+
+.navbtn--primary:hover:not(:disabled) svg {
+  transform: translateX(3px);
+}
+
+.navbtn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.navbtn--primary {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--paper);
+}
+
+.navbtn--primary:hover:not(:disabled) {
+  background: #232f3c;
+  border-color: #232f3c;
+}
+
+/* Presenter notes — editorial reading panel --------------------------------- */
+
+.notes {
+  position: fixed;
+  left: 50%;
+  bottom: var(--space-4);
+  transform: translateX(-50%);
+  z-index: 40;
+  width: min(980px, calc(100vw - 4rem));
+  padding: var(--space-4) var(--space-6);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--blue);
+  border-radius: var(--radius);
+  box-shadow: 0 12px 36px rgba(23, 33, 43, 0.12);
+}
+
+.notes__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin-bottom: var(--space-2);
+}
+
+.notes__label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--blue-ink);
+}
+
+.notes__scene {
+  font-size: 0.875rem;
+  color: var(--grey);
+}
+
+.notes__script {
+  font-size: var(--fs-sm);
+  line-height: 1.7;
+  color: var(--ink);
+}
+
+.notes__close {
+  padding: 3px var(--space-3);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  font-size: 0.8125rem;
+  color: var(--slate);
+  background: var(--surface);
+}
+
+.notes__close:hover {
+  color: var(--ink);
+  border-color: var(--line-strong);
+}
+
+/* Glossary — editorial side sheet -------------------------------------------- */
+
+.glossary__scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background: rgba(23, 33, 43, 0.28);
+}
+
+.glossary {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 51;
+  width: min(520px, 92vw);
+  padding: var(--space-6);
+  overflow-y: auto;
+  background: var(--surface);
+  border-left: 1px solid var(--line);
+  box-shadow: -16px 0 48px rgba(23, 33, 43, 0.12);
+}
+
+.glossary__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-5);
+  padding-bottom: var(--space-4);
+  border-bottom: 1px solid var(--divider);
+}
+
+.glossary__title {
+  font-family: var(--serif);
+  font-size: var(--fs-xl);
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.glossary__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.glossary__term {
+  font-size: var(--fs-sm);
+  font-weight: 700;
+  color: var(--blue-ink);
+  margin-bottom: var(--space-1);
+}
+
+.glossary__def {
+  font-size: var(--fs-sm);
+  line-height: 1.62;
+  color: var(--slate);
+}
+
+.glossary__foot {
+  margin-top: var(--space-6);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--divider);
+  font-size: 0.875rem;
+  font-style: italic;
+  color: var(--grey);
+}
+
+/* Short (768px-class) screens ------------------------------------------------ */
+
+@media (max-height: 860px) {
+  .shell {
+    padding: var(--space-2) var(--space-5) var(--space-3);
+    gap: var(--space-2);
+  }
+
+  .topbar {
+    padding-bottom: var(--space-2);
+  }
+
+  .controls {
+    padding-top: var(--space-2);
+  }
+
+  .progress__step {
+    padding-top: var(--space-1);
+  }
+}

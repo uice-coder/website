@@ -1,0 +1,121 @@
+:root {
+  /* ------------------------------------------------------------------ */
+  /* Palette — bright editorial research                                  */
+  /* ------------------------------------------------------------------ */
+
+  --paper: #faf9f5; /* warm paper — global background */
+  --cream: #f5f1e8; /* soft cream — alternative section background */
+  --ink: #17212b; /* main text */
+  --slate: #596575; /* secondary text */
+  --grey: #606a77; /* muted text — contrast-safe muted copy */
+
+  --blue: #356ae6; /* primary RAG blue */
+  --cyan: #27a9c4; /* retriever cyan */
+  --purple: #7656d6; /* generator purple */
+  --green: #2f9e72; /* evidence green */
+  --red: #e45a65; /* error coral */
+  --orange: #e9953f; /* document orange */
+  --yellow: #f4cb55; /* highlight yellow */
+
+  /*
+   * Darker "ink" variants of each accent, for text below ~18px on light
+   * backgrounds. The base accents stay for fills, edges and large text.
+   */
+  --blue-ink: #2b58bf;
+  --cyan-ink: #10697c;
+  --purple-ink: #6244b8;
+  --green-ink: #23785a;
+  --red-ink: #ac3742;
+  --orange-ink: #8a500d;
+
+  /* Translucent tints for fills and marker highlights */
+  --blue-dim: rgba(53, 106, 230, 0.09);
+  --cyan-dim: rgba(39, 169, 196, 0.12);
+  --purple-dim: rgba(118, 86, 214, 0.09);
+  --green-dim: rgba(47, 158, 114, 0.12);
+  --red-dim: rgba(228, 90, 101, 0.1);
+  --orange-dim: rgba(233, 149, 63, 0.16);
+  --highlight: rgba(244, 203, 85, 0.42);
+
+  /* Scene section tints */
+  --tint-rose: #fff4f3;
+  --tint-cream: #f8f2df;
+  --tint-lavender: #f5f1fc;
+  --tint-green: #f1f8f4;
+  --tint-peach: #fff5ed;
+
+  /* Legacy semantic names still used across the component layer */
+  --bg: var(--paper);
+  --surface: #ffffff; /* pure paper — main surface */
+  --surface-2: #f6f4ee; /* slightly warm raised surface */
+  --surface-3: #eceff2; /* chips and tracks */
+  --text: var(--ink);
+  --muted: var(--slate);
+
+  --line: #dde1e5; /* borders */
+  --line-strong: #c7cdd4;
+  --divider: #e9e7e1; /* very subtle divider */
+
+  --shadow-card: 0 6px 22px rgba(23, 33, 43, 0.06);
+
+  /* ------------------------------------------------------------------ */
+  /* Type — editorial hierarchy                                           */
+  /* ------------------------------------------------------------------ */
+
+  --font: 'Inter', 'SF Pro Display', 'Segoe UI', Helvetica, Arial, sans-serif;
+  --serif: Georgia, 'Times New Roman', serif;
+  --mono: 'JetBrains Mono', 'Cascadia Code', ui-monospace, 'SF Mono', Menlo,
+    monospace;
+
+  --fs-xs: 0.9375rem; /* 15px — diagram labels, supporting notes */
+  --fs-sm: 1.125rem; /* 18px — minimum for primary teaching text */
+  --fs-base: 1.1875rem; /* 19px — body */
+  --fs-md: 1.3125rem; /* 21px — framing subtitle */
+  --fs-lg: 1.5rem; /* 24px — section emphasis */
+  --fs-xl: 1.75rem; /* 28px */
+  --fs-2xl: 2.625rem; /* 42px — the big "No." */
+  --fs-title: clamp(2.125rem, 3.1vw, 3.25rem); /* serif chapter title */
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+
+  --radius-sm: 8px;
+  --radius: 10px;
+  --radius-lg: 14px;
+
+  --shell-max: 1440px;
+}
+
+@media (max-width: 1180px) {
+  :root {
+    --fs-base: 1.125rem;
+    --fs-md: 1.1875rem;
+    --fs-lg: 1.3125rem;
+    --fs-xl: 1.5rem;
+    --fs-2xl: 2rem;
+    --fs-title: 1.75rem;
+    --space-7: 2rem;
+  }
+}
+
+/*
+ * Short-viewport tier (768px-class laptops). The vertical rhythm, not the
+ * width, is what breaks at 1366x768 — headings and spacing shrink first;
+ * primary teaching text keeps its floor.
+ */
+@media (max-height: 860px) {
+  :root {
+    --fs-title: 1.75rem; /* 28px */
+    --fs-md: 1.125rem; /* 18px framing */
+    --fs-lg: 1.3125rem;
+    --fs-2xl: 2rem;
+    --space-5: 1rem;
+    --space-6: 1.25rem;
+    --space-7: 1.5rem;
+  }
+}

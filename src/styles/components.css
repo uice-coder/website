@@ -1,0 +1,896 @@
+/* -------------------------------------------------------------------------- */
+/* SceneFrame — editorial chapter head                                          */
+/* -------------------------------------------------------------------------- */
+
+.scene {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  gap: var(--space-3);
+  width: 100%;
+  min-height: 0;
+}
+
+/*
+ * Per-scene section tint. Painted by a pseudo-element that bleeds into the
+ * shell padding, so the band costs zero layout height — the scenes were
+ * verified overflow-free and must stay that way.
+ */
+.scene::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: calc(-1 * var(--space-3)) calc(-1 * var(--space-6));
+  background: var(--scene-tint, transparent);
+  border-radius: 2px;
+}
+
+.scene__head {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  column-gap: var(--space-6);
+  row-gap: var(--space-1);
+  align-items: baseline;
+}
+
+.scene__eyebrow {
+  grid-column: 1 / -1;
+  font-size: 0.8125rem;
+  font-weight: 650;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--blue-ink);
+  font-variant-numeric: tabular-nums;
+}
+
+.scene__title {
+  font-family: var(--serif);
+  font-size: var(--fs-title);
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  line-height: 1.04;
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+.scene__subtitle {
+  font-size: var(--fs-md);
+  line-height: 1.4;
+  color: var(--slate);
+  max-width: 52ch;
+}
+
+.scene__body {
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.scene__foot {
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: var(--slate);
+  padding-top: var(--space-2);
+  border-top: 1px solid var(--divider);
+  max-width: 120ch;
+}
+
+.scene__foot strong {
+  color: var(--ink);
+  font-weight: 650;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Primary action button                                                        */
+/* -------------------------------------------------------------------------- */
+
+.action {
+  display: inline-flex;
+  align-self: flex-start;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-5);
+  border-radius: var(--radius-sm);
+  background: var(--blue);
+  color: #ffffff;
+  font-size: var(--fs-sm);
+  font-weight: 650;
+  letter-spacing: 0.01em;
+  box-shadow: 0 2px 8px rgba(53, 106, 230, 0.22);
+  transition:
+    transform 0.12s ease,
+    box-shadow 0.15s ease,
+    background 0.15s ease,
+    opacity 0.15s ease;
+}
+
+.action:hover:not(:disabled) {
+  transform: translateY(-1px);
+  background: var(--blue-ink);
+  box-shadow: 0 4px 14px rgba(53, 106, 230, 0.28);
+}
+
+.action:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.action--purple {
+  background: var(--purple);
+  box-shadow: 0 2px 8px rgba(118, 86, 214, 0.22);
+}
+
+.action--purple:hover:not(:disabled) {
+  background: var(--purple-ink);
+  box-shadow: 0 4px 14px rgba(118, 86, 214, 0.28);
+}
+
+/* -------------------------------------------------------------------------- */
+/* StageLabel — small editorial stage marks                                     */
+/* -------------------------------------------------------------------------- */
+
+.stagelabel {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 3px 0;
+  font-size: 0.8125rem;
+  font-weight: 650;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--grey);
+  border-bottom: 2px solid transparent;
+  transition:
+    color 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.stagelabel--active {
+  color: var(--blue-ink);
+  border-bottom-color: var(--blue);
+}
+
+.stagelabel__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.45;
+}
+
+.stagelabel--active .stagelabel__dot {
+  opacity: 1;
+}
+
+/* -------------------------------------------------------------------------- */
+/* DocumentCard — annotated research excerpt                                    */
+/* -------------------------------------------------------------------------- */
+
+.doccard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: var(--space-2) var(--space-3);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--line);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-card);
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease,
+    transform 0.2s ease;
+}
+
+.doccard--topk {
+  border-left-color: var(--green);
+}
+
+.doccard--dropped {
+  border-left-color: var(--divider);
+  box-shadow: none;
+}
+
+.doccard--evidence {
+  border-color: var(--green);
+  border-left-color: var(--green);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(47, 158, 114, 0.16);
+}
+
+.doccard--misleading {
+  border-left-color: var(--red);
+}
+
+.doccard--correct {
+  border-left-color: var(--green);
+}
+
+.doccard__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.doccard__id {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 5px;
+  background: var(--surface-3);
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--slate);
+  flex-shrink: 0;
+}
+
+.doccard--topk .doccard__id {
+  background: var(--green-dim);
+  color: var(--green-ink);
+}
+
+.doccard__title {
+  font-size: 0.875rem;
+  font-weight: 650;
+  color: var(--slate);
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.doccard--topk .doccard__title {
+  color: var(--ink);
+}
+
+.doccard__score {
+  font-family: var(--mono);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--grey);
+  font-variant-numeric: tabular-nums;
+  flex-shrink: 0;
+}
+
+.doccard--topk .doccard__score {
+  color: var(--green-ink);
+}
+
+.doccard__text {
+  font-size: var(--fs-sm);
+  line-height: 1.4;
+  color: var(--slate);
+}
+
+.doccard--topk .doccard__text {
+  color: var(--ink);
+}
+
+.doccard__rank {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: var(--green);
+  color: var(--green-ink);
+  font-size: 0.75rem;
+  font-weight: 800;
+}
+
+/* -------------------------------------------------------------------------- */
+/* TokenStream — generated text with editorial annotations                      */
+/* -------------------------------------------------------------------------- */
+
+.tokens {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0 0.32em;
+  font-size: var(--fs-md);
+  line-height: 1.65;
+  color: var(--ink);
+}
+
+.tokens--lg {
+  font-size: var(--fs-lg);
+}
+
+.token {
+  position: relative;
+  border-radius: 2px;
+  /* Marker highlights sweep in from the left when their class arrives. */
+  background-repeat: no-repeat;
+  background-size: 0% 88%;
+  background-position: 0 55%;
+  transition:
+    background-size 0.45s ease-out,
+    color 0.3s ease;
+}
+
+/* Proofreader marks: wavy coral underline, not a system alert. */
+.token--flag-repeat,
+.token--flag-wrong {
+  color: var(--red-ink);
+  text-decoration: underline wavy var(--red) 2px;
+  text-underline-offset: 5px;
+  text-decoration-skip-ink: none;
+}
+
+.token--evidence {
+  cursor: help;
+  background-image: linear-gradient(var(--highlight), var(--highlight));
+  background-size: 100% 88%;
+}
+
+.token--evidence-active {
+  background-image: linear-gradient(var(--green-dim), var(--green-dim));
+  box-shadow: 0 2px 0 var(--green);
+  color: var(--green-ink);
+}
+
+/* Scene 4B: marker highlights tie tokens to their source document. */
+.token--doc1 {
+  color: var(--orange-ink);
+  background-image: linear-gradient(var(--orange-dim), var(--orange-dim));
+  background-size: 100% 88%;
+}
+
+.token--doc2 {
+  color: var(--cyan-ink);
+  background-image: linear-gradient(var(--cyan-dim), var(--cyan-dim));
+  background-size: 100% 88%;
+}
+
+.token__caret {
+  display: inline-block;
+  width: 2px;
+  height: 1.1em;
+  vertical-align: text-bottom;
+  background: var(--ink);
+  animation: caret 1s steps(2) infinite;
+}
+
+@keyframes caret {
+  50% {
+    opacity: 0;
+  }
+}
+
+/* Margin-note style, like an editor's annotation. */
+.tokens__flagnote {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  margin-left: var(--space-3);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  font-style: italic;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--red-ink);
+  white-space: nowrap;
+}
+
+.tokens__flagnote::before {
+  content: '✳';
+  font-style: normal;
+  font-size: 0.6875rem;
+}
+
+/* -------------------------------------------------------------------------- */
+/* PipelineRail — labelled nodes on a thin path, not boxes                      */
+/* -------------------------------------------------------------------------- */
+
+.rail {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  width: 100%;
+}
+
+.pnode {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  padding: var(--space-1) 0 var(--space-1) var(--space-4);
+  position: relative;
+  min-width: 0;
+  border: none;
+  background: none;
+  transition: color 0.3s ease;
+}
+
+/* The node itself: a small dot on the reading line. */
+.pnode::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.62em;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  border: 2px solid var(--line-strong);
+  background: var(--surface);
+  transition:
+    border-color 0.3s ease,
+    background 0.3s ease;
+}
+
+.pnode--active::before {
+  border-color: var(--blue);
+  background: var(--blue);
+}
+
+.pnode--done::before {
+  border-color: var(--green);
+  background: var(--surface);
+}
+
+.pnode__label {
+  font-size: var(--fs-xs);
+  font-weight: 650;
+  color: var(--slate);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: color 0.3s ease;
+}
+
+.pnode--active .pnode__label {
+  color: var(--blue-ink);
+}
+
+.pnode--done .pnode__label {
+  color: var(--ink);
+}
+
+.pnode__sub {
+  font-size: 0.75rem;
+  color: var(--grey);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.rail__arrow {
+  flex-shrink: 0;
+  margin-top: 0.45em;
+  color: var(--line-strong);
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+.rail__arrow--lit {
+  color: var(--blue);
+}
+
+/* A small dot travels along lit connections. */
+.rail__arrow--lit::after {
+  content: '';
+  position: absolute;
+  top: 4px;
+  left: 0;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--blue);
+  animation: travel 1.2s ease-in-out infinite;
+}
+
+@keyframes travel {
+  0% {
+    transform: translateX(0);
+    opacity: 0;
+  }
+  25% {
+    opacity: 1;
+  }
+  75% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(14px);
+    opacity: 0;
+  }
+}
+
+/* -------------------------------------------------------------------------- */
+/* Term tooltip                                                                 */
+/* -------------------------------------------------------------------------- */
+
+.term {
+  position: relative;
+  border-bottom: 1px dashed var(--grey);
+  cursor: help;
+  color: inherit;
+  font: inherit;
+  padding: 0;
+}
+
+.term:hover,
+.term:focus-visible {
+  border-bottom-color: var(--blue);
+  color: var(--blue-ink);
+}
+
+.term__pop {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 30;
+  width: max-content;
+  max-width: 300px;
+  padding: var(--space-3) var(--space-4);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  box-shadow: 0 10px 30px rgba(23, 33, 43, 0.14);
+  font-size: 0.875rem;
+  line-height: 1.5;
+  font-weight: 400;
+  font-style: normal;
+  color: var(--ink);
+  text-align: left;
+  white-space: normal;
+  pointer-events: none;
+}
+
+.term__pop strong {
+  display: block;
+  margin-bottom: 2px;
+  color: var(--blue-ink);
+}
+
+/* -------------------------------------------------------------------------- */
+/* SegmentedToggle — editorial ink pill                                         */
+/* -------------------------------------------------------------------------- */
+
+.segmented {
+  display: inline-flex;
+  padding: 4px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.segmented__btn {
+  position: relative;
+  padding: var(--space-2) var(--space-5);
+  border-radius: var(--radius-sm);
+  font-size: var(--fs-sm);
+  font-weight: 650;
+  color: var(--slate);
+  white-space: nowrap;
+  transition: color 0.2s ease;
+}
+
+.segmented__btn:hover {
+  color: var(--ink);
+}
+
+.segmented__btn[aria-pressed='true'] {
+  color: var(--paper);
+}
+
+.segmented__pill {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: var(--radius-sm);
+  background: var(--ink);
+}
+
+.segmented__text {
+  position: relative;
+  z-index: 1;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Charts — Observable-style, minimal and directly labelled                     */
+/* -------------------------------------------------------------------------- */
+
+.chart {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+}
+
+.chart__heading {
+  font-family: var(--serif);
+  font-size: var(--fs-md);
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.chart__sub {
+  font-size: 0.875rem;
+  color: var(--grey);
+  margin-top: 2px;
+}
+
+.chart__rows {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.chart__row {
+  display: grid;
+  grid-template-columns: 12ch minmax(0, 1fr) 5ch;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.chart__label {
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--slate);
+  text-align: right;
+  white-space: nowrap;
+}
+
+/* Non-colour cue: the RAG rows also read as emphasised text. */
+.chart__row--rag .chart__label {
+  font-weight: 750;
+  color: var(--ink);
+}
+
+.chart__track {
+  height: 24px;
+  background: #f1efe9;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.chart__fill {
+  height: 100%;
+  border-radius: 4px;
+  transform-origin: left center;
+}
+
+.chart__fill--parametric {
+  background: #7c8593;
+}
+
+.chart__fill--retrieval {
+  background: #6079a3;
+}
+
+.chart__fill--rag {
+  background: var(--blue);
+}
+
+.chart__value {
+  font-family: var(--mono);
+  font-size: 1.0625rem;
+  font-weight: 650;
+  font-variant-numeric: tabular-nums;
+  color: var(--slate);
+  text-align: right;
+}
+
+.chart__row--rag .chart__value {
+  font-weight: 800;
+  color: var(--blue-ink);
+}
+
+.chart__legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-4);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--divider);
+}
+
+.chart__legenditem {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: 0.875rem;
+  color: var(--slate);
+}
+
+.chart__swatch {
+  width: 11px;
+  height: 11px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+.chart__swatch--parametric {
+  background: #7c8593;
+}
+.chart__swatch--retrieval {
+  background: #6079a3;
+}
+.chart__swatch--rag {
+  background: var(--blue);
+}
+
+.chart__source {
+  font-size: 0.8125rem;
+  color: var(--grey);
+  font-style: italic;
+}
+
+/* Divided bar — human factuality ---------------------------------------------- */
+
+.stack {
+  display: flex;
+  height: 40px;
+  border-radius: 5px;
+  overflow: hidden;
+  border: 1px solid var(--divider);
+}
+
+.stack__seg {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--mono);
+  font-size: 0.8125rem;
+  font-weight: 750;
+  font-variant-numeric: tabular-nums;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.stack__seg--bart {
+  background: #9aa4b1;
+  color: #ffffff;
+}
+.stack__seg--rag {
+  background: var(--blue);
+  color: #ffffff;
+}
+.stack__seg--bothGood {
+  background: var(--green);
+  color: var(--green-ink);
+}
+.stack__seg--bothPoor {
+  background: #b87a82;
+  color: #6d3238;
+}
+.stack__seg--none {
+  background: #eceade;
+  color: var(--slate);
+}
+
+.stack__legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-5);
+}
+
+.stack__legenditem {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: 0.875rem;
+  color: var(--slate);
+}
+
+.stack__legenditem b {
+  color: var(--ink);
+  font-family: var(--mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.stack__swatch {
+  width: 11px;
+  height: 11px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+.stack__swatch--bart {
+  background: #9aa4b1;
+}
+.stack__swatch--rag {
+  background: var(--blue);
+}
+.stack__swatch--bothGood {
+  background: var(--green);
+}
+.stack__swatch--bothPoor {
+  background: #b87a82;
+}
+.stack__swatch--none {
+  background: #eceade;
+  border: 1px solid var(--divider);
+}
+
+/* -------------------------------------------------------------------------- */
+/* Callout — editorial annotation, not a card                                   */
+/* -------------------------------------------------------------------------- */
+
+.callout {
+  padding: var(--space-1) 0 var(--space-1) var(--space-4);
+  border-left: 3px solid var(--blue);
+  font-size: var(--fs-sm);
+  line-height: 1.55;
+  color: var(--ink);
+  max-width: 90ch;
+}
+
+.callout--muted {
+  border-left-color: var(--line-strong);
+  color: var(--slate);
+}
+
+/* -------------------------------------------------------------------------- */
+/* Short viewports — must stay last so these win over the base rules above     */
+/* -------------------------------------------------------------------------- */
+
+@media (max-height: 860px) {
+  .scene {
+    gap: var(--space-2);
+  }
+
+  /* The shell's horizontal padding shrinks here — the tint band must too. */
+  .scene::before {
+    inset: calc(-1 * var(--space-2)) calc(-1 * var(--space-5));
+  }
+
+  .scene__foot {
+    font-size: 0.8125rem;
+  }
+
+  .scene__eyebrow {
+    font-size: 0.75rem;
+  }
+
+  .chart {
+    gap: var(--space-2);
+    padding: var(--space-3);
+  }
+
+  .chart__rows {
+    gap: var(--space-2);
+  }
+
+  .chart__track {
+    height: 20px;
+  }
+
+  .chart__legend {
+    padding-top: var(--space-2);
+  }
+
+  .stack {
+    height: 32px;
+  }
+
+  .callout {
+    font-size: var(--fs-xs);
+  }
+
+  .doccard {
+    gap: 2px;
+  }
+}
