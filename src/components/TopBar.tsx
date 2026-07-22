@@ -63,6 +63,29 @@ export function TopBar() {
             G
           </span>
         </button>
+
+        {/* Link out to the standalone classroom video lesson page. */}
+        <a className="ghostbtn ghostbtn--link" href="/lesson.html">
+          <svg
+            width="15"
+            height="15"
+            viewBox="0 0 15 15"
+            fill="none"
+            aria-hidden="true"
+          >
+            <rect
+              x="0.75"
+              y="2.25"
+              width="13.5"
+              height="10.5"
+              rx="2"
+              stroke="currentColor"
+              strokeWidth="1.4"
+            />
+            <path d="M6 5.5l3.5 2L6 9.5V5.5z" fill="currentColor" />
+          </svg>
+          Video Lesson
+        </a>
       </div>
     </header>
   );

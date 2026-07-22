@@ -131,6 +131,17 @@
   color: var(--grey);
 }
 
+/* Anchor variant: link out to another page, styled like a ghost button. */
+.ghostbtn--link {
+  text-decoration: none;
+  border-color: var(--line);
+}
+
+.ghostbtn--link:hover {
+  box-shadow: inset 0 -2px 0 var(--blue);
+  border-radius: var(--radius-sm) var(--radius-sm) 2px 2px;
+}
+
 /* Chapter progress — thin publication line ---------------------------------- */
 
 .progress {
